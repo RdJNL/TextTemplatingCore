@@ -3,6 +3,9 @@ The software in this repository allows you to run a T4 template with the .NET Co
 
 __Author:__ RdJNL
 
+## Latest release
+Version 1.0.0 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.0.0/TextTemplatingCore_v1.0.0.zip).
+
 ## Requirements
 - .NET Core 3.1
 - Visual Studio 2019 (for the VS extension)
