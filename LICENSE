@@ -1,0 +1,46 @@
+Copyright 2020 RdJNL
+All rights reserved
+
+Latest revision: 19 March 2020
+
+The law of the Netherlands applies to this license. Any disputes arising from this license shall be settled in a Dutch court of law.
+
+This license applies to all contents of the TextTemplatingCore repository (https://github.com/RdJNL/TextTemplatingCore) and to all contents
+of all forks of the TextTemplatingCore repository.
+
+1) The ownership and copyright of all contents of the repository belong to RdJNL (https://github.com/RdJNL).
+
+2) The contents of the repository, or parts of the contents of the repository, or any derivatives of (parts of) the contents of the
+   repository, may not be distributed in any way, form or shape. This includes, but is not limited to, assemblies compiled from the code in
+   the repository.
+
+3) The repository may be forked on GitHub subject to the following conditions:
+3.1) This license will apply to all contents of all forks of the repository.
+3.2) This license will remain unaltered in all forks of the repository. This includes, but is not limited to, the file name and location of
+     this license within each fork of the repository.
+
+4) Contributions to the repository will be made subject to the following conditions:
+4.1) The contributor (the person/entity that submits the contribution to the repository) transfers all ownership and copyright of the
+     contributed contents to the copyright holder of the repository (RdJNL).
+4.2) The copyright holder of the repository grants the contributor a world-wide, non-exclusive, royalty-free and perpetual right to use,
+     copy, modify, communicate and make available to the public (including without limitation via the internet) and distribute, in each
+	 case in an original or modified form, the contributed contents as they wish.
+4.3) For patent claims including, without limitation, method, process, and apparatus claims which the contributor owns, controls or has the
+     right to grant, now or in the future, the contributor grants to the copyright holder of the repository a perpetual, worldwide,
+	 non-exclusive, transferable, royalty-free, irrevocable patent license, with the right to sublicense these rights to multiple tiers of
+	 sublicensees, to make, have made, use, sell, offer for sale, import and otherwise transfer the contributed contents and the
+	 contributed contents in combination with any other contents of the repository (and portions of such combination).
+4.4) The contributor confirms that:
+4.4.1) The contributor has the legal authority to enter into this agreement.
+4.4.2) The contributor owns the copyright and patent claims covering the contributed contents which are required to grant the rights under
+       sections 4.1 and 4.3.
+4.4.3) The grant of rights under sections 4.1 and 4.3 does not violate any grant of rights which the contributor has made to third parties,
+       including the contributor’s employer. If the contributor is an employee, they have had their employer approve this agreement. If the
+	   contributor is less than eighteen years old, they have had their parents or guardian approve this agreement.
+4.5) Any copyright and/or patent claims regarding (part of) the contributed contents are the sole responsibility of the contributor and will
+     therefore be settled between the claimant and the contributor.
+
+5) The software and/or source code in the repository is provided "AS IS", without warranty of any kind, express or implied, including but
+   not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or
+   copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising
+   from, out of or in connection with the software and/or source code or the use or other dealings in the software and/or source code.

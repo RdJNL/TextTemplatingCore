@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>RdJNL.TextTemplatingCore.TextTemplatingCoreLib</RootNamespace>
+    
+    <Authors>RdJNL</Authors>
+    <Company>RdJNL</Company>
+    <Product>TextTemplatingCoreLib</Product>
+    <Copyright>Copyright 2020 RdJNL</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
+  </ItemGroup>
+
+</Project>

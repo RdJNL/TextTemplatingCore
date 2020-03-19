@@ -1,0 +1,10 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".txt" #>
+<#
+foreach( var a in AppDomain.CurrentDomain.GetAssemblies() )
+{
+#>
+<#= a.GetName() #>
+<#
+}
+#>
