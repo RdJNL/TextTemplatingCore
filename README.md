@@ -8,8 +8,8 @@ Version 1.0.0 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCo
 
 ## Requirements
 - .NET Core 3.1
+- .NET Framework 4.8
 - Visual Studio 2019 (for the VS extension)
-- .NET Framework 4.8 (for the TextTransformCore executable)
 
 ## How to use it
 
