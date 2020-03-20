@@ -357,3 +357,4 @@ MigrationBackup/
 .ionide/
 
 **/TemplateExecute/TemplateExecute.exe
+launchSettings.json
