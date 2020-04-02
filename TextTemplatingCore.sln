@@ -8,13 +8,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E60BDF14-57A5-4368-B067-F065CF397690}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateExecute", "TemplateExecute\TemplateExecute.csproj", "{31A56EF0-7739-46B0-A6A9-CDA93886D3F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextTransformCore", "TextTransformCore\TextTransformCore.csproj", "{FD50106B-40A1-4270-AD4A-591EB9F5A933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextTemplatingCoreLib", "TextTemplatingCoreLib\TextTemplatingCoreLib.csproj", "{ADB1EE01-F30D-4922-85E4-25A4F55BAC76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextTemplatingCoreLib", "TextTemplatingCoreLib\TextTemplatingCoreLib.csproj", "{ADB1EE01-F30D-4922-85E4-25A4F55BAC76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
