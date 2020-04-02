@@ -41,4 +41,4 @@ The following steps are followed to process the T4 template:
 - The .NET Framework code loads the content of the temporary file and either passes it to Visual Studio (the VS extension) or saves it to the output file (the TextTransformCore executable).
 
 ## License
-The license for all contents of the repository can be found in the _LICENSE_ file.
+The license for all contents of the repository can be found in the [LICENSE file](https://github.com/RdJNL/TextTemplatingCore/blob/master/LICENSE).
