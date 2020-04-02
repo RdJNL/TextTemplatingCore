@@ -23,4 +23,9 @@
     <ProjectReference Include="..\TextTemplatingCoreLib\TextTemplatingCoreLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
+  </ItemGroup>
+
 </Project>
