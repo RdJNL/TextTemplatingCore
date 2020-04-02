@@ -20,7 +20,7 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
         public const string PACKAGE_GUID = "68C949A0-7E31-4336-82A1-DBAEFCD2AE62";
         public const string PACKAGE_NAME = "Text Templating File Generator .NET Core";
         public const string PACKAGE_DESCRIPTION = TextTemplatingFileGeneratorCore.GENERATOR_DESCRIPTION;
-        public const string PACKAGE_VERSION = "1.0";
+        public const string PACKAGE_VERSION = "1.0.1";
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {

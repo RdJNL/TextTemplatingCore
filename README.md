@@ -1,10 +1,10 @@
-# T4 Text Templating with .NET Core
+﻿# T4 Text Templating with .NET Core
 The software in this repository allows you to run a T4 template with the .NET Core 3.1 runtime. This means you can load .NET Core 3.1 assemblies and use .NET Core 3.1 libraries. My team uses it to generate C# code for types in a Core assembly (using Reflection). We also use it to process a JSON file using .NET Core's System.Text.Json library.
 
 __Author:__ RdJNL
 
 ## Latest release
-Version 1.0.0 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.0.0/TextTemplatingCore_v1.0.0.zip).
+Version 1.0.1 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.0.1/TextTemplatingCore_v1.0.1.zip).
 
 ## Requirements
 - .NET Core 3.1
