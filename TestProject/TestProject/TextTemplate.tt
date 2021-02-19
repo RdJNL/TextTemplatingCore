@@ -2,7 +2,7 @@
 <#@ output extension=".txt" encoding="utf-8" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Text.Json" #>
-<#@ assembly name="$(ProjectDir)bin\Debug\netcoreapp3.1\TestProject.dll" #>
+<#@ assembly name="$(TargetPath)" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>

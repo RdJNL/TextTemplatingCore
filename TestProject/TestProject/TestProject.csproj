@@ -6,14 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="TextTemplate.txt">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TextTemplate.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
   </ItemGroup>
 

@@ -99,14 +99,28 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
             ThreadHelper.ThrowIfNotOnUIThread();
 
             DTE dte = (DTE)GetService(typeof(DTE));
-            string solutionFile = dte?.Solution.FileName;
+
+            Solution solution = dte?.Solution;
+            Project project = solution?.FindProjectItem(inputFileName)?.ContainingProject;
+            Configuration configuration = project?.ConfigurationManager.ActiveConfiguration;
+
+            string solutionFile = solution?.FullName;
             string solutionDir = solutionFile != null ? Path.GetDirectoryName(solutionFile) + "\\" : "";
-            string projectFile = dte?.Solution.FindProjectItem(inputFileName)?.ContainingProject.FileName;
+            string projectFile = project?.FullName;
             string projectDir = projectFile != null ? Path.GetDirectoryName(projectFile) + "\\" : "";
+
+            string outputPath = (string)configuration?.Properties.Item("OutputPath")?.Value;
+            string outputFileName = (string)project?.Properties.Item("OutputFileName")?.Value;
+
+            string targetPath = "";
+            if( projectDir != null && outputPath != null && outputFileName != null )
+            {
+                targetPath = projectDir + outputPath + outputFileName;
+            }
 
             IEnumerable<string> refs = references
                 .Take(references.Length - 2)
-                .Select(r => r.Replace("$(SolutionDir)", solutionDir).Replace("$(ProjectDir)", projectDir));
+                .Select(r => r.Replace("$(SolutionDir)", solutionDir).Replace("$(ProjectDir)", projectDir).Replace("$(TargetPath)", targetPath));
 
             return TextTemplatingHelper.ProcessReferences(refs, inputFileName);
         }
