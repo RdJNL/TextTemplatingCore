@@ -22,7 +22,7 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
     {
         public const string GENERATOR_GUID = "85B769DE-38F5-4CBE-91AE-D0DFA431FE30";
         public const string GENERATOR_NAME = nameof(TextTemplatingFileGeneratorCore);
-        public const string GENERATOR_DESCRIPTION = "Generate files from T4 templates using the .NET Core 3.1 runtime.";
+        public const string GENERATOR_DESCRIPTION = "Generate files from T4 templates using the .NET 5 runtime.";
 
         private const string ERROR_OUTPUT = "ErrorGeneratingOutput";
         private const string TEMPLATE_NAMESPACE = "RdJNL.TextTemplatingCore.GeneratedTemplate";

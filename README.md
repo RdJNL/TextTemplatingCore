@@ -1,13 +1,13 @@
-﻿# T4 Text Templating with .NET Core
-The software in this repository allows you to run a T4 template with the .NET Core 3.1 runtime. This means you can load .NET Core 3.1 assemblies and use .NET Core 3.1 libraries. My team uses it to generate C# code for types in a Core assembly (using Reflection). We also use it to process a JSON file using .NET Core's System.Text.Json library.
+﻿# T4 Text Templating with .NET 5
+The software in this repository allows you to run a T4 template with the .NET 5 runtime. This means you can load .NET Core and .NET 5 assemblies and use .NET 5 libraries. My team uses it to generate C# code for types in a .NET Core 3.1 assembly (using Reflection). We also use it to process a JSON file using .NET 5's System.Text.Json library.
 
 __Author:__ RdJNL
 
 ## Latest release
-Version 1.0.1 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.0.1/TextTemplatingCore_v1.0.1.zip).
+Version 1.1.0 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.1.0/TextTemplatingCore_v1.1.0.zip).
 
 ## Requirements
-- .NET Core 3.1
+- .NET 5
 - .NET Framework 4.8
 - Visual Studio 2019 (for the VS extension)
 
@@ -37,7 +37,7 @@ This processor has one feature that Visual Studio's processor does not have:
 ## How does it work?
 The following steps are followed to process the T4 template:
 - .NET Framework 4.8 code (either the VS extension or the TextTransformCore executable) uses Visual Studio's T4 template processor to preprocess the template into C# code. This C# code is saved to a temporary file.
-- The .NET Framework code runs a .NET Core 3.1 executable which compiles the C# code and runs it. The result is once again saved to a temporary file.
+- The .NET Framework code runs a .NET 5 executable which compiles the C# code and runs it. The result is once again saved to a temporary file.
 - The .NET Framework code loads the content of the temporary file and either passes it to Visual Studio (the VS extension) or saves it to the output file (the TextTransformCore executable).
 
 ## License
