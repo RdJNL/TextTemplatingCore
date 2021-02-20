@@ -3,6 +3,7 @@
 // https://github.com/RdJNL/TextTemplatingCore //
 //---------------------------------------------//
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,7 +19,7 @@ using RdJNL.TextTemplatingCore.TextTemplatingCoreLib;
 namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
 {
     [Guid(GENERATOR_GUID)]
-    public sealed class TextTemplatingFileGeneratorCore : BaseTemplatedCodeGenerator, IVsSingleFileGenerator
+    public sealed class TextTemplatingFileGeneratorCore : BaseTemplatedCodeGenerator
     {
         public const string GENERATOR_GUID = "85B769DE-38F5-4CBE-91AE-D0DFA431FE30";
         public const string GENERATOR_NAME = nameof(TextTemplatingFileGeneratorCore);
@@ -72,7 +73,7 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
             }
             catch( Exception e )
             {
-                GenerateError(false, $"Something went wrong processing the template '{inputFileName}': {e.ToString()}");
+                GenerateError(false, $"Something went wrong processing the template '{inputFileName}': {e}");
                 return ERROR_OUTPUT;
             }
         }
@@ -99,59 +100,151 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
             ThreadHelper.ThrowIfNotOnUIThread();
 
             DTE dte = (DTE)GetService(typeof(DTE));
+            // Solution
+            string solutionName = string.Empty;
+            string solutionExt = string.Empty;
+            string solutionFileName = string.Empty;
+            string solutionDir = string.Empty;
+            string solutionPath = string.Empty;
+            // Project
+            string projectName = string.Empty;
+            string projectExt = string.Empty;
+            string projectFileName = string.Empty;
+            string projectDir = string.Empty;
+            string projectPath = string.Empty;
+            // Target
+            string targetName = string.Empty;
+            string targetExt = string.Empty;
+            string targetFileName = string.Empty;
+            string targetDir = string.Empty;
+            string targetPath = string.Empty;
+            // Other
+            string configurationName = string.Empty;
+            string outDir = string.Empty;
+            string platformName = string.Empty;
+            string devEnvDir = string.Empty;
 
-            Solution solution = dte?.Solution;
-            Project project = solution?.FindProjectItem(inputFileName)?.ContainingProject;
-            Configuration configuration = project?.ConfigurationManager.ActiveConfiguration;
-
-            string solutionFile = solution?.FullName;
-            string solutionDir = solutionFile != null ? Path.GetDirectoryName(solutionFile) + "\\" : "";
-            string projectFile = project?.FullName;
-            string projectDir = projectFile != null ? Path.GetDirectoryName(projectFile) + "\\" : "";
-
-            string outputPath = (string)configuration?.Properties.Item("OutputPath")?.Value;
-            string outputFileName = (string)project?.Properties.Item("OutputFileName")?.Value;
-
-            string targetPath = "";
-            if( projectDir != null && outputPath != null && outputFileName != null )
+            if( dte != null )
             {
-                targetPath = projectDir + outputPath + outputFileName;
+                if( dte.FullName != null )
+                {
+                    devEnvDir = Path.GetDirectoryName(dte.FullName);
+                    if( devEnvDir != null && !devEnvDir.EndsWith(@"\") )
+                    {
+                        devEnvDir += @"\";
+                    }
+                }
+                Solution solution = dte.Solution;
+                if( solution != null )
+                {
+                    solutionFileName = Path.GetFileName(solution.FileName);
+                    string solutionFile = solution.FullName;
+                    if( solutionFile != null )
+                    {
+                        solutionPath = solutionFile;
+                        solutionDir = Path.GetDirectoryName(solutionFile);
+                        if( solutionDir != null && !solutionDir.EndsWith(@"\") )
+                        {
+                            solutionDir += @"\";
+                        }
+                        solutionName = Path.GetFileNameWithoutExtension(solution.FullName);
+                        solutionExt = Path.GetExtension(solution.FullName);
+                    }
+                    Project project = solution.FindProjectItem(inputFileName)?.ContainingProject;
+                    if( project != null )
+                    {
+                        projectFileName = Path.GetFileName(project.FileName);
+                        string projectFile = project.FullName;
+                        if( projectFile != null )
+                        {
+                            projectPath = projectFile;
+                            projectDir = Path.GetDirectoryName(projectFile);
+                            if( projectDir != null && !projectDir.EndsWith(@"\") )
+                            {
+                                projectDir += @"\";
+                            }
+                            projectName = Path.GetFileNameWithoutExtension(project.FullName);
+                            projectExt = Path.GetExtension(project.FullName);
+                        }
+                        Configuration configuration = project.ConfigurationManager.ActiveConfiguration;
+                        if( configuration != null )
+                        {
+                            configurationName = configuration.ConfigurationName;
+                            platformName = configuration.PlatformName;
+                            string outputPath = (string)configuration.Properties.Item("OutputPath")?.Value;
+                            string outputFileName = (string)project.Properties.Item("OutputFileName")?.Value;
+                            if (outputPath != null && outputFileName != null)
+                            {
+                                targetFileName = outputFileName;
+                                targetName = Path.GetFileNameWithoutExtension(outputFileName);
+                                targetExt = Path.GetExtension(outputFileName);
+                                outDir = outputPath;
+                                if( !outDir.EndsWith(@"\") )
+                                {
+                                    outDir += @"\";
+                                }
+                                targetDir = projectDir + outDir;
+                                targetPath = targetDir + targetFileName;
+                            }
+                        }
+                    }
+                }
             }
 
             var replacements = new Dictionary<string, string>
             {
-                ["$(SolutionName)"] = solutionName,             // "MySolution"
-                ["$(TargetName)"] = targetName,                 // "MyProject"
-                ["$(ProjectName)"] = projectName,               // "11.T4.MyProject"
-                ["$(ConfigurationName)"] = configuratioName,    // "Debug"
-                ["$(OutDir)"] = outDir,                         // "bin\Debug\"
-                ["$(TargetExt)"] = targetExt,                   // ".dll"
-                ["$(ProjectExt)"] = projectExt,                 // ".csproj"
-                ["$(SolutionExt)"] = solutionExt,               // ".sln"
-                ["$(PlatformName)"] = platformName,             // "Any CPU"
-                ["$(DevEnvDir)"] = devEnvDir,                   // "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\"
-                ["$(UserProfile)"] = userProfile,               // "C:\Users\<username>\"
+                ["SolutionName"] = solutionName,             // "MySolution"
+                ["TargetName"] = targetName,                 // "MyProject"
+                ["ProjectName"] = projectName,               // "11.T4.MyProject"
+                ["ConfigurationName"] = configurationName,    // "Debug"
+                ["OutDir"] = outDir,                         // "bin\Debug\"
+                ["TargetExt"] = targetExt,                   // ".dll"
+                ["ProjectExt"] = projectExt,                 // ".csproj"
+                ["SolutionExt"] = solutionExt,               // ".sln"
+                ["PlatformName"] = platformName,             // "Any CPU"
+                ["DevEnvDir"] = devEnvDir,                   // "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\"
 
-                ["$(TargetFileName)"] = targetFileName,         // "MyProject.dll"
-                ["$(SolutionFileName)"] = solutionFileName,     // "MySolution.sln"
-                ["$(ProjectFileName)"] = projectFileName,       // "11.T4.MyProject.csproj"
-                ["$(SolutionDir)"] = solutionDir,               // "C:\Data\Projects\My\"
+                ["TargetFileName"] = targetFileName,         // "MyProject.dll"
+                ["SolutionFileName"] = solutionFileName,     // "MySolution.sln"
+                ["ProjectFileName"] = projectFileName,       // "11.T4.MyProject.csproj"
+                ["SolutionDir"] = solutionDir,               // "C:\Data\Projects\My\"
 
-                ["$(SolutionPath)"] = solutionPath,             // "C:\Data\Projects\My\MySolution.sln"
-                ["$(ProjectDir)"] = projectDir,                 // "C:\Data\Projects\My\11.T4\11.T4.MyProject\"
-                ["$(ProjectPath)"] = projectPath,               // "C:\Data\Projects\My\11.T4\11.T4.MyProject\11.T4.MyProject.csproj"
-                ["$(TargetDir)"] = targetDir,                   // "C:\Data\Projects\My\11.T4\11.T4.MyProject\bin\Debug\"
-                ["$(TargetPath)"] = targetPath,                 // "C:\Data\Projects\My\11.T4\11.T4.MyProject\bin\Debug\MyProject.dll"
+                ["SolutionPath"] = solutionPath,             // "C:\Data\Projects\My\MySolution.sln"
+                ["ProjectDir"] = projectDir,                 // "C:\Data\Projects\My\11.T4\11.T4.MyProject\"
+                ["ProjectPath"] = projectPath,               // "C:\Data\Projects\My\11.T4\11.T4.MyProject\11.T4.MyProject.csproj"
+                ["TargetDir"] = targetDir,                   // "C:\Data\Projects\My\11.T4\11.T4.MyProject\bin\Debug\"
+                ["TargetPath"] = targetPath,                 // "C:\Data\Projects\My\11.T4\11.T4.MyProject\bin\Debug\MyProject.dll"
             };
+
+            // Handle variables like $(UserProfile) for pulling nuget packages from the local storage folder
+            foreach( DictionaryEntry ev in Environment.GetEnvironmentVariables())
+            {
+                if( !(ev.Key is string) )
+                {
+                    continue;
+                }
+
+                if( replacements.ContainsKey((string)ev.Key) )
+                {
+                    continue;
+                }
+
+                replacements[(string)ev.Key] = ev.Value switch
+                {
+                    null => string.Empty,
+                    string asString => asString,
+                    _ => ev.Value.ToString(),
+                };
+            }
 
             IEnumerable<string> refs = references
                 .Take(references.Length - 2)
                 .Select(r =>
                 {
-                    var r2 = r;
+                    string r2 = r;
                     foreach (var replacement in replacements)
                     {
-                        r2 = r2.Replace(replacement.Key, replacement.Value);
+                        r2 = r2.Replace("$(" + replacement.Key + ")", replacement.Value);
                     }
                     return r2;
                 });
