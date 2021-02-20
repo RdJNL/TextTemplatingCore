@@ -118,9 +118,43 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
                 targetPath = projectDir + outputPath + outputFileName;
             }
 
+            var replacements = new Dictionary<string, string>
+            {
+                ["$(SolutionName)"] = solutionName,             // "MySolution"
+                ["$(TargetName)"] = targetName,                 // "MyProject"
+                ["$(ProjectName)"] = projectName,               // "11.T4.MyProject"
+                ["$(ConfigurationName)"] = configuratioName,    // "Debug"
+                ["$(OutDir)"] = outDir,                         // "bin\Debug\"
+                ["$(TargetExt)"] = targetExt,                   // ".dll"
+                ["$(ProjectExt)"] = projectExt,                 // ".csproj"
+                ["$(SolutionExt)"] = solutionExt,               // ".sln"
+                ["$(PlatformName)"] = platformName,             // "Any CPU"
+                ["$(DevEnvDir)"] = devEnvDir,                   // "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\"
+                ["$(UserProfile)"] = userProfile,               // "C:\Users\<username>\"
+
+                ["$(TargetFileName)"] = targetFileName,         // "MyProject.dll"
+                ["$(SolutionFileName)"] = solutionFileName,     // "MySolution.sln"
+                ["$(ProjectFileName)"] = projectFileName,       // "11.T4.MyProject.csproj"
+                ["$(SolutionDir)"] = solutionDir,               // "C:\Data\Projects\My\"
+
+                ["$(SolutionPath)"] = solutionPath,             // "C:\Data\Projects\My\MySolution.sln"
+                ["$(ProjectDir)"] = projectDir,                 // "C:\Data\Projects\My\11.T4\11.T4.MyProject\"
+                ["$(ProjectPath)"] = projectPath,               // "C:\Data\Projects\My\11.T4\11.T4.MyProject\11.T4.MyProject.csproj"
+                ["$(TargetDir)"] = targetDir,                   // "C:\Data\Projects\My\11.T4\11.T4.MyProject\bin\Debug\"
+                ["$(TargetPath)"] = targetPath,                 // "C:\Data\Projects\My\11.T4\11.T4.MyProject\bin\Debug\MyProject.dll"
+            };
+
             IEnumerable<string> refs = references
                 .Take(references.Length - 2)
-                .Select(r => r.Replace("$(SolutionDir)", solutionDir).Replace("$(ProjectDir)", projectDir).Replace("$(TargetPath)", targetPath));
+                .Select(r =>
+                {
+                    var r2 = r;
+                    foreach (var replacement in replacements)
+                    {
+                        r2 = r2.Replace(replacement.Key, replacement.Value);
+                    }
+                    return r2;
+                });
 
             return TextTemplatingHelper.ProcessReferences(refs, inputFileName);
         }
