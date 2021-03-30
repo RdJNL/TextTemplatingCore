@@ -3,22 +3,34 @@
 // https://github.com/RdJNL/TextTemplatingCore //
 //---------------------------------------------//
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace RdJNL.TextTemplatingCore.TextTemplatingCoreLib
 {
     public static class TextTemplatingHelper
     {
-        public static IEnumerable<string> ProcessReferences(IEnumerable<string> references, string inputFileName)
+        public static IEnumerable<string> ProcessReferences(IEnumerable<string> references, string inputFileName, IDictionary<string, string> variables = null)
         {
-            string[] refs = references.ToArray();
+            variables = variables != null ? new Dictionary<string, string>(variables) : new Dictionary<string, string>();
+            AddEnvironmentVariables(variables);
 
-            return refs
+            return references
+                .Select(r =>
+                {
+                    foreach( var v in variables )
+                    {
+                        r = Regex.Replace(r, Regex.Escape($"$({v.Key})"), v.Value.Replace("$", "$$"), RegexOptions.IgnoreCase);
+                    }
+
+                    return r;
+                })
                 .Where(r => r != "System")
                 .Select(r =>
                 {
@@ -29,6 +41,34 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingCoreLib
 
                     return r;
                 });
+        }
+
+        private static void AddEnvironmentVariables(IDictionary<string, string> variables)
+        {
+            // Handle variables like $(UserProfile) for pulling NuGet packages from the local storage folder
+            foreach( DictionaryEntry ev in Environment.GetEnvironmentVariables() )
+            {
+                if( !(ev.Key is string key) || variables.ContainsKey(key) )
+                {
+                    continue;
+                }
+
+                string value;
+                switch( ev.Value )
+                {
+                    case null:
+                        value = "";
+                        break;
+                    case string s:
+                        value = s;
+                        break;
+                    default:
+                        value = ev.Value.ToString();
+                        break;
+                }
+
+                variables.Add(key, value);
+            }
         }
 
         public static string ExecuteTemplate(string inputFileName, string templateCode, string[] references, out TemplateError[] errors)

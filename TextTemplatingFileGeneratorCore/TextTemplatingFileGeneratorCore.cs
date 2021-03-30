@@ -97,92 +97,95 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
 
         private IEnumerable<string> ProcessReferences(string[] references, string inputFileName)
         {
+            IDictionary<string, string> variables = GetReferenceVariables(inputFileName);
+
+            IEnumerable<string> refs = references.Take(references.Length - 2);
+
+            return TextTemplatingHelper.ProcessReferences(refs, inputFileName, variables);
+        }
+
+        private IDictionary<string, string> GetReferenceVariables(string inputFileName)
+        {
             ThreadHelper.ThrowIfNotOnUIThread();
 
             DTE dte = (DTE)GetService(typeof(DTE));
+
             // Solution
-            string solutionName = string.Empty;
-            string solutionExt = string.Empty;
-            string solutionFileName = string.Empty;
-            string solutionDir = string.Empty;
-            string solutionPath = string.Empty;
+            string solutionName = "";
+            string solutionExt = "";
+            string solutionFileName = "";
+            string solutionDir = "";
+            string solutionPath = "";
+
             // Project
-            string projectName = string.Empty;
-            string projectExt = string.Empty;
-            string projectFileName = string.Empty;
-            string projectDir = string.Empty;
-            string projectPath = string.Empty;
+            string projectName = "";
+            string projectExt = "";
+            string projectFileName = "";
+            string projectDir = "";
+            string projectPath = "";
+
             // Target
-            string targetName = string.Empty;
-            string targetExt = string.Empty;
-            string targetFileName = string.Empty;
-            string targetDir = string.Empty;
-            string targetPath = string.Empty;
+            string targetName = "";
+            string targetExt = "";
+            string targetFileName = "";
+            string targetDir = "";
+            string targetPath = "";
+
             // Other
-            string configurationName = string.Empty;
-            string outDir = string.Empty;
-            string platformName = string.Empty;
-            string devEnvDir = string.Empty;
+            string configurationName = "";
+            string outDir = "";
+            string platformName = "";
+            string devEnvDir = "";
 
             if( dte != null )
             {
                 if( dte.FullName != null )
                 {
-                    devEnvDir = Path.GetDirectoryName(dte.FullName);
-                    if( devEnvDir != null && !devEnvDir.EndsWith(@"\") )
-                    {
-                        devEnvDir += @"\";
-                    }
+                    devEnvDir = AddTrailingSlash(Path.GetDirectoryName(dte.FullName));
                 }
+
                 Solution solution = dte.Solution;
                 if( solution != null )
                 {
                     solutionFileName = Path.GetFileName(solution.FileName);
+
                     string solutionFile = solution.FullName;
                     if( solutionFile != null )
                     {
                         solutionPath = solutionFile;
-                        solutionDir = Path.GetDirectoryName(solutionFile);
-                        if( solutionDir != null && !solutionDir.EndsWith(@"\") )
-                        {
-                            solutionDir += @"\";
-                        }
+                        solutionDir = AddTrailingSlash(Path.GetDirectoryName(solutionFile));
                         solutionName = Path.GetFileNameWithoutExtension(solution.FullName);
                         solutionExt = Path.GetExtension(solution.FullName);
                     }
+
                     Project project = solution.FindProjectItem(inputFileName)?.ContainingProject;
                     if( project != null )
                     {
                         projectFileName = Path.GetFileName(project.FileName);
+
                         string projectFile = project.FullName;
                         if( projectFile != null )
                         {
                             projectPath = projectFile;
-                            projectDir = Path.GetDirectoryName(projectFile);
-                            if( projectDir != null && !projectDir.EndsWith(@"\") )
-                            {
-                                projectDir += @"\";
-                            }
+                            projectDir = AddTrailingSlash(Path.GetDirectoryName(projectFile));
                             projectName = Path.GetFileNameWithoutExtension(project.FullName);
                             projectExt = Path.GetExtension(project.FullName);
                         }
+
                         Configuration configuration = project.ConfigurationManager.ActiveConfiguration;
                         if( configuration != null )
                         {
                             configurationName = configuration.ConfigurationName;
                             platformName = configuration.PlatformName;
+
                             string outputPath = (string)configuration.Properties.Item("OutputPath")?.Value;
                             string outputFileName = (string)project.Properties.Item("OutputFileName")?.Value;
-                            if (outputPath != null && outputFileName != null)
+                            if( outputPath != null && outputFileName != null )
                             {
                                 targetFileName = outputFileName;
                                 targetName = Path.GetFileNameWithoutExtension(outputFileName);
                                 targetExt = Path.GetExtension(outputFileName);
-                                outDir = outputPath;
-                                if( !outDir.EndsWith(@"\") )
-                                {
-                                    outDir += @"\";
-                                }
+                                outDir = AddTrailingSlash(outputPath);
                                 targetDir = projectDir + outDir;
                                 targetPath = targetDir + targetFileName;
                             }
@@ -191,7 +194,7 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
                 }
             }
 
-            var replacements = new Dictionary<string, string>
+            var variables = new Dictionary<string, string>
             {
                 ["SolutionName"] = solutionName,             // "MySolution"
                 ["TargetName"] = targetName,                 // "MyProject"
@@ -216,40 +219,7 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
                 ["TargetPath"] = targetPath,                 // "C:\Data\Projects\My\11.T4\11.T4.MyProject\bin\Debug\MyProject.dll"
             };
 
-            // Handle variables like $(UserProfile) for pulling nuget packages from the local storage folder
-            foreach( DictionaryEntry ev in Environment.GetEnvironmentVariables())
-            {
-                if( !(ev.Key is string) )
-                {
-                    continue;
-                }
-
-                if( replacements.ContainsKey((string)ev.Key) )
-                {
-                    continue;
-                }
-
-                replacements[(string)ev.Key] = ev.Value switch
-                {
-                    null => string.Empty,
-                    string asString => asString,
-                    _ => ev.Value.ToString(),
-                };
-            }
-
-            IEnumerable<string> refs = references
-                .Take(references.Length - 2)
-                .Select(r =>
-                {
-                    string r2 = r;
-                    foreach (var replacement in replacements)
-                    {
-                        r2 = r2.Replace("$(" + replacement.Key + ")", replacement.Value);
-                    }
-                    return r2;
-                });
-
-            return TextTemplatingHelper.ProcessReferences(refs, inputFileName);
+            return variables;
         }
 
         protected override byte[] GenerateCode(string inputFileName, string inputFileContent)
@@ -308,6 +278,18 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
         private void GenerateError(bool warning, string message, int line = 1, int column = 1)
         {
             GeneratorErrorCallback(warning, 0, message, line + 1, column + 1);
+        }
+
+        private string AddTrailingSlash(string path)
+        {
+            if( path != null && !path.EndsWith(@"\") )
+            {
+                return path + @"\";
+            }
+            else
+            {
+                return path;
+            }
         }
 
         private sealed class TextTemplatingCallback : ITextTemplatingCallback
