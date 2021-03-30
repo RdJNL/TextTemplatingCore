@@ -18,7 +18,9 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingCoreLib
     {
         public static IEnumerable<string> ProcessReferences(IEnumerable<string> references, string inputFileName, IDictionary<string, string> variables = null)
         {
-            variables = variables != null ? new Dictionary<string, string>(variables) : new Dictionary<string, string>();
+            variables = variables != null
+                ? new Dictionary<string, string>(variables, StringComparer.InvariantCultureIgnoreCase)
+                : new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             AddEnvironmentVariables(variables);
 
             return references
