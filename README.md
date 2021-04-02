@@ -4,7 +4,7 @@ The software in this repository allows you to run a T4 template with the .NET 5 
 __Author:__ RdJNL
 
 ## Latest release
-Version 1.1.0 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.1.0/TextTemplatingCore_v1.1.0.zip).
+Version 1.1.1 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.1.1/TextTemplatingCore_v1.1.1.zip).
 
 ## Requirements
 - .NET 5
