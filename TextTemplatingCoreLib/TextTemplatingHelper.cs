@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------//
-// Copyright 2020 RdJNL                        //
+// Copyright 2022 RdJNL                        //
 // https://github.com/RdJNL/TextTemplatingCore //
 //---------------------------------------------//
 using System;
