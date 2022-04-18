@@ -33,7 +33,6 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingCoreLib
 
                     return r;
                 })
-                .Where(r => r != "System")
                 .Select(r =>
                 {
                     if( r.EndsWith(".dll") )
@@ -42,7 +41,8 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingCoreLib
                     }
 
                     return r;
-                });
+                })
+                .Distinct();
         }
 
         private static void AddEnvironmentVariables(IDictionary<string, string> variables)

@@ -99,7 +99,7 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
         {
             IDictionary<string, string> variables = GetReferenceVariables(inputFileName);
 
-            IEnumerable<string> refs = references.Take(references.Length - 2);
+            IEnumerable<string> refs = references.Take(references.Length - 4);
 
             return TextTemplatingHelper.ProcessReferences(refs, inputFileName, variables);
         }
