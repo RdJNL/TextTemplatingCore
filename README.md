@@ -1,4 +1,4 @@
-﻿# T4 Text Templating with .NET 6
+﻿# T4 Text Templating with .NET 7
 The software in this repository allows you to run a T4 template with the .NET 6 runtime. This means you can load .NET Core and .NET 5/6 assemblies and use .NET 6 libraries. My team uses it to generate C# code for types in a .NET Core 3.1 assembly (using Reflection). We also use it to process a JSON file using .NET 6's System.Text.Json library.
 
 __Author:__ RdJNL
@@ -7,7 +7,7 @@ __Author:__ RdJNL
 Version 1.2.0 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.2.0/TextTemplatingCore_v1.2.0.zip).
 
 ## Requirements
-- .NET 6
+- .NET 7
 - .NET Framework 4.8
 - Visual Studio 2019/2022 (for the VS extension)
 
