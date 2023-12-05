@@ -18,9 +18,9 @@ namespace RdJNL.TextTemplatingCore.TextTemplatingFileGeneratorCore
     public sealed class VSPackage : AsyncPackage
     {
         public const string PACKAGE_GUID = "68C949A0-7E31-4336-82A1-DBAEFCD2AE62";
-        public const string PACKAGE_NAME = "Text Templating File Generator .NET 6";
+        public const string PACKAGE_NAME = "Text Templating File Generator .NET 7";
         public const string PACKAGE_DESCRIPTION = TextTemplatingFileGeneratorCore.GENERATOR_DESCRIPTION;
-        public const string PACKAGE_VERSION = "1.2.0";
+        public const string PACKAGE_VERSION = "1.2.1";
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
