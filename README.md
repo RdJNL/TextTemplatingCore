@@ -1,13 +1,13 @@
-﻿# T4 Text Templating with .NET 6
-The software in this repository allows you to run a T4 template with the .NET 6 runtime. This means you can load .NET Core and .NET 5/6 assemblies and use .NET 6 libraries. My team uses it to generate C# code for types in a .NET Core 3.1 assembly (using Reflection). We also use it to process a JSON file using .NET 6's System.Text.Json library.
+﻿# T4 Text Templating with .NET 8
+The software in this repository allows you to run a T4 template with the .NET 8 runtime. This means you can load .NET Core and .NET 5/6/7/8 assemblies and use .NET 8 libraries. My team uses it to generate C# code for types in a .NET assembly (using Reflection). We also use it to process a JSON file using .NET's System.Text.Json library.
 
 __Author:__ RdJNL
 
 ## Latest release
-Version 1.2.0 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.2.0/TextTemplatingCore_v1.2.0.zip).
+Version 1.3.0 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCore/releases/download/v1.3.0/TextTemplatingCore_v1.3.0.zip).
 
 ## Requirements
-- .NET 6
+- .NET 8
 - .NET Framework 4.8
 - Visual Studio 2019/2022 (for the VS extension)
 
@@ -23,7 +23,7 @@ Version 1.2.0 can be downloaded [here](https://github.com/RdJNL/TextTemplatingCo
 ### TextTransformCore executable
 To use the executable, simply run it from the command line. Provide as first and only argument the path to the template file. If the path has spaces in it, makes sure to surround it with double quotes (`"`).
 
-## Differences with Visual Studio's T4 processor
+## Differences with Visual Studio's .NET Framework T4 processor
 There are several limitations to this approach:
 - The hostspecific setting __must__ be false.
 - No debugging.
@@ -36,10 +36,14 @@ This processor has one feature that Visual Studio's processor does not have:
 There is one other difference with Visual Studio's processor:
 - When running a template using the VS extension, relative paths in assembly directives are relative to the T4 template file, rather than to the solution directory. To provide a path relative to the solution directory, use the `$(SolutionDir)` environment variable.
 
+## Remarks
+- Microsoft has added a new T4 command line tool to Visual Studio 2022. See [this blog post](https://devblogs.microsoft.com/dotnet/t4-command-line-tool-for-dotnet/) for more information. The reactions to this tool have been mixed. Hopefully Microsoft's tool will be able to replace this project in the future.
+- When using this extension, if you need the T4 template to have access to internal types/members of your assembly, add `<ItemGroup><InternalsVisibleTo Include="GeneratedTemplate.dll" /></ItemGroup>` to the project file of the assembly containing the internal types/members.
+
 ## How does it work?
 The following steps are followed to process the T4 template:
 - .NET Framework 4.8 code (either the VS extension or the TextTransformCore executable) uses Visual Studio's T4 template processor to preprocess the template into C# code. This C# code is saved to a temporary file.
-- The .NET Framework code runs a .NET 6 executable which compiles the C# code and runs it. The result is once again saved to a temporary file.
+- The .NET Framework code runs a .NET 8 executable which compiles the C# code and runs it. The result is once again saved to a temporary file.
 - The .NET Framework code loads the content of the temporary file and either passes it to Visual Studio (the VS extension) or saves it to the output file (the TextTransformCore executable).
 
 ## License
