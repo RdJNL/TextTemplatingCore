@@ -11,9 +11,9 @@
 #10
 #11
 #12
-6.0.4
+8.0.0
 "2019-10-02T00:00:00"
 RdJNL.TextTemplatingCore.TestProject.IHello
 RdJNL.TextTemplatingCore.TestProject.IWorld
 Microsoft.Extensions.DependencyInjection.IServiceCollection
-D:\Dev\Projects\TextTemplatingCore\TestProject\TestProject\TextTemplate.tt
+C:\Dev\TextTemplatingCore\TestProject\TestProject\TextTemplate.tt

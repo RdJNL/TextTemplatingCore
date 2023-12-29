@@ -1,0 +1,5 @@
+﻿<#@ template debug="true" language="C#" #>
+<#@ output extension=".txt" encoding="utf-8" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\net8.0\TestProject8.dll" #>
+<#= RdJNL.TextTemplatingCore.TestProject6.AClass.X #>
+<#= System.Environment.Version #>

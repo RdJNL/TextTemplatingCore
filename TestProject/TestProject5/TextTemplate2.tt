@@ -1,0 +1,24 @@
+﻿<#@ template debug="true" language="C#" #>
+<#@ output extension=".txt" encoding="utf-8" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Text.Json" #>
+<#@ assembly name="$(TargetPath)" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Text.Json" #>
+<#@ import namespace="System.Text.Json.Serialization" #>
+<#
+    var baseType = typeof(RdJNL.TextTemplatingCore.TestProject5.AClass);
+    var types = baseType.Assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t) && t.IsPublic && t.IsInterface);
+#>
+Test
+<# for( int i = 0; i < 12; ++i ) { #>
+#<#= i + 1 #>
+<# } #>
+<#= System.Environment.Version #>
+<#= JsonSerializer.Serialize(new DateTime(2019, 10, 2)) #>
+<# foreach(var t in types) { #>
+<#= t.FullName #>
+<# } #>
+<#= TemplateFile #>

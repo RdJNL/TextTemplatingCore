@@ -1,0 +1,12 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".txt" encoding="utf-8" #>
+<#@ assembly name="bin\Debug\net8.0\TestWebProject8.dll" #>
+<#@ assembly name="System.Text.Json" #>
+<#
+    var type = typeof(TestWebProject6.Controllers.WeatherForecastController);
+#>
+Test
+<# for( int i = 0; i < 12; ++i ) { #>
+#<#= i + 1 #>
+<# } #>
+<#= type.FullName #>
