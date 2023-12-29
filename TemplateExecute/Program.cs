@@ -34,7 +34,7 @@ namespace RdJNL.TemplateExecute
                 string outputFile = UnescapeArg(args[2]);
                 string[] libraries = args.Length > 3 ? UnescapeArgs(args[3..]) : new string[0];
 
-                Directory.SetCurrentDirectory(Path.GetDirectoryName(templateFile));
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(templateFile)!);
 
                 string inputCode = File.ReadAllText(inputFile, Encoding.UTF8);
                 SourceText sourceText = SourceText.From(inputCode);

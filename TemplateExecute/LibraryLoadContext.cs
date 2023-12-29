@@ -29,12 +29,12 @@ namespace RdJNL.TemplateExecute
             }
 
             DependencyContext? dependencyContext = DependencyContext.Load(assembly);
-            var resolver = new CompositeCompilationAssemblyResolver(new ICompilationAssemblyResolver[]
-            {
-                new AppBaseCompilationAssemblyResolver(Path.GetDirectoryName(library)),
+            var resolver = new CompositeCompilationAssemblyResolver(
+            [
+                new AppBaseCompilationAssemblyResolver(Path.GetDirectoryName(library)!),
                 new ReferenceAssemblyPathResolver(),
                 new PackageCompilationAssemblyResolver(),
-            });
+            ]);
 
             Assembly? _OnResolving(AssemblyLoadContext context, AssemblyName name)
             {
@@ -43,7 +43,7 @@ namespace RdJNL.TemplateExecute
                     return null;
                 }
 
-                RuntimeLibrary library = dependencyContext.RuntimeLibraries.FirstOrDefault(rl => rl.Name.Equals(name.Name, StringComparison.OrdinalIgnoreCase));
+                RuntimeLibrary? library = dependencyContext.RuntimeLibraries.FirstOrDefault(rl => rl.Name.Equals(name.Name, StringComparison.OrdinalIgnoreCase));
 
                 if( library != null )
                 {
